@@ -1,0 +1,15 @@
+{
+    "type": "source",
+    "name": "users_source",
+    "prop":{
+        "connector":"postgres-cdc",
+        "database-name":"",
+		"decoding.plugin.name":"pgoutput",
+		"hostname":"${PGHOST}",
+		"port":"5432",
+		"schema-name":"${SCHEMA}",
+		"table-name":"users",
+		"username":"${USER}",
+		"password":"$(PASSWORD)"
+    }
+}

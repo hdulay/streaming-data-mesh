@@ -1,0 +1,15 @@
+{
+    "userid":{
+        "type":"int",
+        "pk":true
+    },
+    "first_name":{
+        "type":"string"
+    },
+    "last_name":{
+        "type":"string"
+    },
+    "phone":{
+        "type":"string"
+    }
+}

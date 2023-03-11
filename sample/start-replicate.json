@@ -1,0 +1,18 @@
+{
+    "eventType": "START",
+    "eventTime": "2020-12-28T19:52:00.001+10:00",
+    "run": {
+        "runId": "d46e465b-d358-4d32-83d4-replicate"
+    },
+    "job": {
+        "namespace": "west",
+        "name": "east.click_user.replicate"
+    },
+    "inputs": [
+        {
+            "namespace": "east",
+            "name": "change.click_user.stream"
+        }
+    ],
+    "producer": "https://github.com/OpenLineage/OpenLineage/blob/v1-0-0/client"
+}

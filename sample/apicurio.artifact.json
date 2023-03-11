@@ -1,0 +1,155 @@
+{
+    "asyncapi": "2.2.0",
+    "externalDocs": {
+        "description": "Find more info here",
+        "url": "https://www.asyncapi.com"
+    },
+    "info": {
+        "title": "CLICK_USERS",
+        "version": "0.0.1",
+        "description": "CREATE OR REPLACE STREAM CLICK_USERS WITH (KAFKA_TOPIC="CLICK_USERS", PARTITIONS=1, REPLICAS=1) AS SELECT   C.IP IP,   C.USERID USERID,   C.AGENT AGENT,   C.REQUEST REQUEST,   C.STATUS STATUS,   U.FIRST_NAME FIRST_NAME,   U.LAST_NAME LAST_NAME,   U.PHONE PHONE FROM CLICKSTREAM C INNER JOIN USERS_MATERIALIZED U ON ((C.USERID = U.USERID)) EMIT CHANGES;",
+        "contact": {
+            "name": "API Support",
+            "url": "http://www.asyncapi.com/support",
+            "email": "info@asyncapi.io"
+        },
+        "x-twitter": "@AsyncAPISpec"
+    },
+    "tags": [
+        {
+            "name": "root-tag1",
+            "externalDocs": {
+                "description": "External docs description 1",
+                "url": "https://www.asyncapi.com/"
+            }
+        },
+        {
+            "name": "root-tag2",
+            "description": "Description 2",
+            "externalDocs": {
+                "url": "https://www.asyncapi.com/"
+            }
+        },
+        {
+            "name": "root-tag3"
+        },
+        {
+            "name": "root-tag4",
+            "description": "Description 4"
+        },
+        {
+            "name": "root-tag5",
+            "externalDocs": {
+                "url": "https://www.asyncapi.com/"
+            }
+        }
+    ],
+    "servers": {
+        "kafka": {
+            "url": "localhost:9092",
+            "protocol": "kafka-secure",
+            "description": "Domain east",
+            "security": [
+                {
+                    "user-password": []
+                }
+            ]
+        }
+    },
+    "defaultContentType": "application/json",
+    "channels": {
+        "CLICK_USERS": {
+            "description": "CLICK_USERS",
+            "subscribe": {
+                "summary": "Subscribe to CLICK_USERS.",
+                "description": "Subscribe to CLICK_USERS\n",
+                "operationId": "receiveCLICK_USERS.",
+                "traits": [
+                    {
+                        "$ref": "#/components/operationTraits/CLICK_USERS"
+                    }
+                ],
+                "message": {
+                    "$ref": "#/components/messages/CLICK_USERS"
+                }
+            }
+        }
+    },
+    "components": {
+        "messages": {
+            "CLICK_USERS": {
+                "name": "CLICK_USERS",
+                "title": "CLICK_USERS",
+                "summary": "Subscribe to CLICK_USERS.",
+                "payload": {
+                    "$ref": "#/components/schemas/CLICK_USERS"
+                },
+                "bindings": {
+                    "kafka": {
+                        "key": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "bindingVersion": "0.1.0"
+                    }
+                }
+            }
+        },
+        "schemas": {
+            "CLICK_USERS": {
+                "type": "object",
+                "properties": {
+                    "USERID": {
+                        "type": "integer"
+                    },
+                    "IP": {
+                        "type": "string"
+                    },
+                    "AGENT": {
+                        "type": "string"
+                    },
+                    "REQUEST": {
+                        "type": "string"
+                    },
+                    "STATUS": {
+                        "type": "string"
+                    },
+                    "FIRST_NAME": {
+                        "type": "string"
+                    },
+                    "LAST_NAME": {
+                        "type": "string"
+                    },
+                    "PHONE": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "user-password": {
+                "type": "userPassword",
+                "description": ""
+            }
+        },
+        "operationTraits": {
+            "CLICK_USERS": {
+                "bindings": {
+                    "kafka": {
+                        "groupId": "CLICK_USERS",
+                        "clientId": "CLICK_USERS",
+                        "streamId": "CLICK_USERS",
+                        "bindingVersion": "0.1.0"
+                    }
+                }
+            }
+        }
+    }
+}

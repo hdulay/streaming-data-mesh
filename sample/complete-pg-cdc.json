@@ -1,0 +1,34 @@
+{
+    "eventType": "COMPLETE",
+    "eventTime": "2020-12-28T20:52:00.001+10:00",
+    "run": {
+        "runId": "d46e465b-d358-4d32-83d4-df660ff614d1"
+    },
+    "job": {
+        "namespace": "east",
+        "name": "connect.pg.cdc"
+    },
+    "outputs": [
+        {
+            "namespace": "east",
+            "name": "change.users",
+            "facets": {
+                "schema": {
+                    "_producer": "https://github.com/OpenLineage/OpenLineage/blob/v1-0-0/client",
+                    "_schemaURL": "https://github.com/OpenLineage/OpenLineage/blob/v1-0-0/spec/OpenLineage.json#/definitions/SchemaDatasetFacet",
+                    "fields": [
+                        {
+                            "name": "userid",
+                            "type": "VARCHAR"
+                        },
+                        {
+                            "name": "name",
+                            "type": "VARCHAR"
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "producer": "https://github.com/OpenLineage/OpenLineage/blob/v1-0-0/client"
+}

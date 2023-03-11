@@ -1,0 +1,7 @@
+{
+    "connector.class": "io.confluent.kafka.connect.datagen.DatagenConnector",
+    "kafka.topic":"clickstream",
+    "max.interval":500,
+    "iterations": -1,
+    "quickstart":"clickstream"
+}

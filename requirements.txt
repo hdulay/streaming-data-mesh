@@ -1,0 +1,17 @@
+openlineage-python
+openapi_client
+Flask
+confluent-kafka
+# kafkaconnect
+click
+typer
+pandas
+apache-airflow
+apache-airflow-providers-http
+path
+docker
+ksql
+sqlparse
+sql-metadata
+apicurioregistryclient
+peewee

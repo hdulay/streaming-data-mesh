@@ -1,0 +1,203 @@
+asyncapi: '2.2.0'
+
+externalDocs:
+  description: Find more info here
+  url: https://www.asyncapi.com
+
+info:
+  title: COVID 19 Global Statistics AsyncAPI Spec
+  version: '0.0.1'
+  description: |
+    This AsyncAPI provides pub/sub information for clients to pub/sub COVID
+    data to Kafka
+
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: API Support
+    url: http://www.asyncapi.com/support
+    email: info@asyncapi.io
+  x-twitter: '@AsyncAPISpec'
+
+tags:
+  - name: root-tag1
+    externalDocs:
+      description: External docs description 1
+      url: https://www.asyncapi.com/
+  - name: root-tag2
+    description: Description 2
+    externalDocs:
+      url: "https://www.asyncapi.com/"
+  - name: root-tag3
+  - name: root-tag4
+    description: Description 4
+  - name: root-tag5
+    externalDocs:
+      url: "https://www.asyncapi.com/"
+
+servers:
+  kafka-aws-useast2:
+    url: https://kafka.aws.confluent.cloud:9092
+    protocol: kafka
+    description: Kafka standard cluster Confluent cloud AWS US-EAST-2
+    security:
+      - user-password: []
+
+defaultContentType: application/json
+
+channels:
+  covid: # topic name
+    x-confluent-cloud-security:
+      $ref: '#/components/securitySchemes/user-password'
+    description: Subscribes to the COVID topic for new statistics.
+    subscribe:
+      summary: COVID global statistics
+      description: |
+        The schema that this service follows the https://api.covid19api.com/
+      operationId: receiveNewCovidInfo
+      tags:
+        - name: covid19api
+          externalDocs:
+            description: COVID 19 API - the data source
+            url: https://api.covid19api.com/
+        - name: lineage
+          externalDocs:
+            description: view the lineage graph
+            url: https://openlineage.com:3000/lineage/job/my-stream-namespace/my-stream-job
+        - name: apicurio
+          externalDocs:
+            description: view the AsyncAPI registry
+            url: https://studio.apicur.io/
+      traits:
+        - $ref: '#/components/operationTraits/covid'
+      message:
+        $ref: '#/components/messages/covidapi'
+
+components:
+  messages:
+    covidapi:
+      name: covidapi
+      title: covid api
+      summary: covidapi from https://api.covid19api.com/
+      correlationId:
+        description: |
+          You can correlate / join with other data using the
+          CountryCode field.
+        location: $message.payload#/CountryCode
+      tags:
+        - name: message-tag1
+          externalDocs:
+            description: External docs description 1
+            url: https://www.asyncapi.com/
+        - name: message-tag2
+          description: Description 2
+          externalDocs:
+            url: "https://www.asyncapi.com/"
+        - name: message-tag3
+        - name: message-tag4
+          description: Description 4
+        - name: message-tag5
+          externalDocs:
+            url: "https://www.asyncapi.com/"
+      headers:
+        type: object
+        properties:
+          my-custom-app-header:
+            type: string
+          correlationId:
+            type: string
+      payload:
+        $ref: "#/components/schemas/covidapi"
+      bindings:
+        kafka:
+          key:
+            type: object
+            properties:
+              id:
+                type: string
+              type:
+                type: string
+          bindingVersion: '0.1.0'
+
+
+  schemas:
+    covidapi:
+      type: object
+      required:
+        - CountryCode
+      properties:
+        Country:
+          type: string
+        CountryCode:
+          type: string
+          description: correlationId
+        Date:
+          type: string
+        ID:
+          type: string
+        NewConfirmed:
+          type: integer
+        NewDeaths:
+          type: integer
+        NewRecovered:
+          type: integer
+        Premium:
+          type: object
+        Slug:
+          type: string
+        TotalConfirmed:
+          type: integer
+        ToatalDeaths:
+          type: integer
+        TotalRecovered:
+          type: integer
+    
+
+  securitySchemes:
+    user-password:
+      type: userPassword
+      description: | 
+        Provide your Confluent KEY as the user and SECRET as the password.
+
+        ```prop
+        # Kafka
+        bootstrap.servers=pkc-ep9mm.us-east-2.aws.confluent.cloud:9092
+        security.protocol=SASL_SSL
+        sasl.mechanisms=PLAIN
+        sasl.username={{ CLUSTER_API_KEY }}
+        sasl.password={{ CLUSTER_API_SECRET }}
+
+        # Best practice for higher availability in librdkafka clients prior to 1.7
+        session.timeout.ms=45000
+
+        # Confluent Cloud Schema Registry
+        schema.registry.url=https://psrc-q2n1d.westus2.azure.confluent.cloud
+        basic.auth.credentials.source=USER_INFO
+        basic.auth.user.info={{ SR_API_KEY }}:{{ SR_API_SECRET }}
+        
+        ```
+
+        Copy the above YAML replacing the KEY/SECRETS for both the cluster and 
+        schema registry and use in your Kafka clients.
+
+  messageTraits:
+    commonHeaders:
+      headers:
+        type: object
+        properties:
+          my-app-header:
+            type: integer
+            minimum: 0
+            maximum: 100
+          correlationId:
+            type: string
+
+  operationTraits:
+    covid:
+      bindings:
+        kafka:
+          groupId: my-app-group-id-pub
+          clientId: my-app-client-id-pub
+          bindingVersion: '0.1.0'
+

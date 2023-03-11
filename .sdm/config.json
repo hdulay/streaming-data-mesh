@@ -1,0 +1,44 @@
+{
+    "name": "hubert.dulay@gmail.com",
+    "url": "http://127.0.0.1:7000",
+    "apicurio": "http://0.0.0.0:8080/apis/registry/v2",
+    "openlineage": "http://localhost:3000",
+    "profile": "west",
+    "profiles": {
+        "east": {
+            "domain": "the east domain",
+            "agent": "http://localhost:8082",
+            "prop": {
+                "kafka": {
+                    "name": "east kafka cluster",
+                    "bootstrap.servers": "localhost:9092",
+                    "rest.proxy": "localhost:8082"
+                },
+                "connect": {
+                    "name": "east connect cluster",
+                    "rest": "localhost:8083"
+                },
+                "schema.registry": {
+                    "rest": "localhost:8081"
+                },
+                "ksql": {
+                    "rest": "localhost:8088"
+                }
+            }
+        },
+        "west": {
+            "domain": "the east domain",
+            "agent": "http://localhost:7082",
+            "prop": {
+                "kafka": {
+                    "name": "east kafka cluster",
+                    "bootstrap.servers": "localhost:9093",
+                    "rest.proxy": "localhost:28082"
+                },
+                "schema.registry": {
+                    "rest": "localhost:8081"
+                }
+            }
+        }
+    }
+}

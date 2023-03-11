@@ -1,0 +1,99 @@
+asyncapi: '2.2.0'
+
+externalDocs:
+  description: Find more info here
+  url: https://www.asyncapi.com
+
+info:
+  title: {{ dp['sourceDescription']['name'] }}
+  version: '0.0.1'
+  description: {{ dp['sourceDescription']['statement'].replace('\n', ' ') }}
+
+  contact:
+    name: API Support
+    url: http://www.asyncapi.com/support
+    email: info@asyncapi.io
+  x-twitter: '@AsyncAPISpec'
+
+tags:  # a way to reference more metadata like lineage, usage metrics, and security information
+  - name: root-tag1
+    externalDocs:
+      description: External docs description 1
+      url: https://www.asyncapi.com/
+  - name: root-tag2
+    description: Description 2
+    externalDocs:
+      url: "https://www.asyncapi.com/"
+  - name: root-tag3
+  - name: root-tag4
+    description: Description 4
+  - name: root-tag5
+    externalDocs:
+      url: "https://www.asyncapi.com/"
+
+servers:
+  kafka:
+    url: '{{ kafka['bootstrap.servers'] }}'
+    protocol: kafka-secure
+    description: Domain {{ profile }}
+    security:
+      - user-password: []
+
+defaultContentType: application/json
+
+channels:
+  {{ dp['sourceDescription']['topic'] }}:
+    description: {{ dp['sourceDescription']['topic'] }}
+    subscribe:
+      summary: Subscribe to {{ dp['sourceDescription']['topic'] }}.
+      description: |
+        Subscribe to {{ dp['sourceDescription']['topic'] }}
+      operationId: receive{{ dp['sourceDescription']['name'] }}.
+      traits:
+        - $ref: '#/components/operationTraits/{{ dp['sourceDescription']['name'] }}'
+      message:
+        $ref: '#/components/messages/{{ dp['sourceDescription']['name'] }}'
+
+components:
+  messages:
+    {{ dp['sourceDescription']['name'] }}:
+      name: {{ dp['sourceDescription']['name'] }}
+      title: {{ dp['sourceDescription']['name'] }}
+      summary: Subscribe to {{ dp['sourceDescription']['name'] }}.
+      payload:
+        $ref: "#/components/schemas/{{ dp['sourceDescription']['name'] }}"
+      bindings:
+        kafka:
+          key:
+            type: object
+            properties:
+              id:
+                type: string
+              type:
+                type: string
+          bindingVersion: '0.1.0'
+
+  schemas:
+    {{ dp['sourceDescription']['name'] }}:
+      type: object
+      properties:
+        {% for f in dp['sourceDescription']['fields'] %}
+        {{f.name}}:
+          type: {{ f['schema']['type'].lower() }}
+        {% endfor %}
+    
+
+  securitySchemes:
+    user-password:
+      type: userPassword
+      description: | 
+
+  operationTraits:
+    {{ dp['sourceDescription']['name'] }}:
+      bindings:
+        kafka:
+          groupId: {{ dp['sourceDescription']['name'] }}
+          clientId: {{ dp['sourceDescription']['name'] }}
+          streamId: {{ dp['sourceDescription']['name'] }}
+          bindingVersion: '0.1.0'
+

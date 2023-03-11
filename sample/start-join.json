@@ -1,0 +1,22 @@
+{
+    "eventType": "START",
+    "eventTime": "2020-12-28T19:52:00.001+10:00",
+    "run": {
+        "runId": "d46e465b-d358-4d32-83d4-df660ff6join"
+    },
+    "job": {
+        "namespace": "east",
+        "name": "click_user_join"
+    },
+    "inputs": [
+        {
+            "namespace": "east",
+            "name": "append.click.stream"
+        },
+        {
+            "namespace": "east",
+            "name": "change.users"
+        }
+    ],
+    "producer": "https://github.com/OpenLineage/OpenLineage/blob/v1-0-0/client"
+}
